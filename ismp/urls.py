@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
 
 urlpatterns = [
+    path('', lambda request: redirect('redirect')),  # Root redirects to role-based dashboard
     path('admin/', admin.site.urls),
-    path('', include('users.urls')),
     path('', include('core.urls')),
-    path('', include('academics.urls')),
+    path('', include('academics.urls')),  # if mark-attendance is here
 ]
