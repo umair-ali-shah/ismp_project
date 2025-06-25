@@ -1,0 +1,58 @@
+{% load custom_tags %}
+
+<h2>Mark Attendance</h2>
+
+<form method="get">
+  <label>Select Class:</label>
+  <select name="class" required>
+    <option value="">-- Select Class --</option>
+    {% for c in classes %}
+      <option value="{{ c.id }}" {% if selected_class == c.id|stringformat:"s" %}selected{% endif %}>{{ c.name }}</option>
+    {% endfor %}
+  </select>
+
+  <label>Select Section:</label>
+  <select name="section" required>
+    <option value="">-- Select Section --</option>
+    {% for s in sections %}
+      <option value="{{ s.id }}" {% if selected_section == s.id|stringformat:"s" %}selected{% endif %}>{{ s.name }}</option>
+    {% endfor %}
+  </select>
+
+  <button type="submit">Load Students</button>
+</form>
+
+{% if students %}
+<form method="post">
+  {% csrf_token %}
+  <input type="hidden" name="total_students" value="{{ total }}">
+  <table border="1">
+    <tr>
+      <th>Student</th>
+      <th>Status</th>
+    </tr>
+    {% for s in students %}
+    <tr>
+      <td>
+        <input type="hidden" name="student_id_{{ forloop.counter0 }}" value="{{ s.id }}">
+        {{ s.user.email }} ({{ s.student_class.name }} - {{ s.section.name }})
+      </td>
+      <td>
+        <select name="status_{{ forloop.counter0 }}">
+            <option value="PRESENT" {% if attendance_data|get_item:s.id == "PRESENT" %}selected{% endif %}>Present</option>
+            <option value="ABSENT" {% if attendance_data|get_item:s.id == "ABSENT" %}selected{% endif %}>Absent</option>
+            <option value="LEAVE" {% if attendance_data|get_item:s.id == "LEAVE" %}selected{% endif %}>Leave</option>
+        </select>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  <button type="submit">Save Attendance</button>
+</form>
+{% endif %}
+
+{% if messages %}
+  {% for msg in messages %}
+    <p style="color: green;">{{ msg }}</p>
+  {% endfor %}
+{% endif %}
