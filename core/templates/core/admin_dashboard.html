@@ -1,0 +1,19 @@
+<h2>Welcome Admin!</h2>
+<p>Total students, teachers, fee collection — coming soon.</p>
+
+<h2>Admin Dashboard</h2>
+
+<p><strong>Total Students:</strong> {{ total_students }}</p>
+<p><strong>Total Teachers:</strong> {{ total_teachers }}</p>
+<p><strong>Total Parents:</strong> {{ total_parents }}</p>
+<p><strong>Total Classes:</strong> {{ total_classes }}</p>
+<p><strong>Total Sections:</strong> {{ total_sections }}</p>
+<p><strong>Attendance Marked Today:</strong> {{ attendance_today }}</p>
+
+<hr>
+
+<h3>Quick Links</h3>
+<ul>
+    <li><a href="{% url 'mark-attendance' %}">Mark Attendance</a></li>
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+</ul>
